@@ -123,6 +123,13 @@ sub new {
 } 
 
 sub check { 
+  # snmp has  
+  # cpqHeFltTolFanSpeed 
+  #    should be other(1), normal(2), high(3) 
+  #    in 2024 switched to an integer that is the percentage of speed
+  #    assume that no fan will ever run at 1,2,3 percent
+  # cpqHeFltTolFanCondition
+  #    should be other(1), ok(2), degraded(3), failed(4)
   my $self = shift;
   $self->blacklist('f', $self->{cpqHeFltTolFanIndex});
   $self->add_info(sprintf 'fan %d is %s, speed is %s, pctmax is %s%%, '.
@@ -132,15 +139,11 @@ sub check {
       $self->{cpqHeFltTolFanLocale}, $self->{cpqHeFltTolFanRedundant},
       $self->{cpqHeFltTolFanRedundantPartner});
   $self->add_extendedinfo(sprintf 'fan_%s=%d%%',
-      $self->{cpqHeFltTolFanIndex}, $self->{cpqHeFltTolFanPctMax});
+      $self->{cpqHeFltTolFanIndex}, $self->{cpqHeFltTolFanSpeed});
   if ($self->{cpqHeFltTolFanPresent} eq 'present') {
-    if ($self->{cpqHeFltTolFanSpeed} eq 'high') { 
-      $self->add_info(sprintf 'fan %d (%s) runs at high speed',
-          $self->{cpqHeFltTolFanIndex}, $self->{cpqHeFltTolFanLocale});
-      $self->add_message(CRITICAL, $self->{info});
-    } elsif ($self->{cpqHeFltTolFanSpeed} ne 'normal') {
-      $self->add_info(sprintf 'fan %d (%s) needs attention',
-          $self->{cpqHeFltTolFanIndex}, $self->{cpqHeFltTolFanLocale});
+    if ($self->{cpqHeFltTolFanSpeed} > $self->{cpqHeFltTolFanPctMax} || $self->{cpqHeFltTolFanSpeed} < 5) {
+      $self->add_info(sprintf 'fan %d (%s) runs outside of range 5%% < %d%% < %d%%',
+          $self->{cpqHeFltTolFanIndex}, $self->{cpqHeFltTolFanLocale}, $self->{cpqHeFltTolFanSpeed}, $self->{cpqHeFltTolFanPctMax});
       $self->add_message(CRITICAL, $self->{info});
     }
     if ($self->{cpqHeFltTolFanCondition} eq 'failed') {
@@ -201,7 +204,7 @@ sub check {
   if ($self->{runtime}->{options}->{perfdata}) {
     $self->{runtime}->{plugin}->add_perfdata(
         label => sprintf('fan_%s', $self->{cpqHeFltTolFanIndex}),
-        value => $self->{cpqHeFltTolFanPctMax},
+        value => $self->{cpqHeFltTolFanSpeed},
         uom => '%',
     );
   }

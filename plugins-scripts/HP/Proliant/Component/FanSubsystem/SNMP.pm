@@ -142,11 +142,12 @@ sub he_init {
           2 => "absent",
           3 => "present",
       },
-      cpqHeFltTolFanSpeedValue => {
-          1 => "other",
-          2 => "normal",
-          3 => "high",
-      },
+      # starting 2024 fan sped value became a rotation speed
+      # cpqHeFltTolFanSpeedValue => {
+      #     1 => "other",
+      #     2 => "normal",
+      #     3 => "high",
+      # },
       cpqHeFltTolFanRedundantValue => {
           1 => "other",
           2 => "notRedundant",
@@ -176,6 +177,20 @@ sub he_init {
     # als fans akzeptiert. dafuer gibts dann die overall condition
     # SNMPv2-SMI::enterprises.232.6.2.6.7.1.1.0.1 = INTEGER: 0
     # SNMPv2-SMI::enterprises.232.6.2.6.7.1.1.0.2 = INTEGER: 0
+    #
+    # translate old fan speeds 
+    # mib specifies fanspeed to be an enum other(1), normal(2), high(3)
+    # but somewhere in 2024 it became an integer with the actual speed percentage
+    # assuming that no regular fan will run below 3% speed, we translate
+    # old enum values to (arbitary chosen) percentages
+    if ($_->{cpqHeFltTolFanSpeed} == 1) {  # other
+      $_->{cpqHeFltTolFanSpeed} = 99;
+    } elsif ($_->{cpqHeFltTolFanSpeed} == 2) {  # normal
+      $_->{cpqHeFltTolFanSpeed} = 25;
+    } elsif ($_->{cpqHeFltTolFanSpeed} == 3) {  # high
+      $_->{cpqHeFltTolFanSpeed} = 75;
+    }
+    # acceptable maximum speed hardcoded to 50%
     $_->{cpqHeFltTolFanPctMax} = ($_->{cpqHeFltTolFanPresent} eq 'present') ?
         50 : 0;
     push(@{$self->{he_fans}},
