@@ -104,7 +104,7 @@ sub check {
         $self->{cpqHeFltTolPowerSupplyCapacityMaximum}) {
       if ($self->{runtime}->{options}->{perfdata}) {
         $self->{runtime}->{plugin}->add_perfdata(
-            label => sprintf("pc_%s", $self->{cpqHeFltTolPowerSupplyBay}),
+            label => sprintf("pc.%s", $self->{cpqHeFltTolPowerSupplyBay}),
             value => $self->{cpqHeFltTolPowerSupplyCapacityUsed},
             warning => $self->{cpqHeFltTolPowerSupplyCapacityMaximum},
             critical => $self->{cpqHeFltTolPowerSupplyCapacityMaximum}
@@ -113,7 +113,7 @@ sub check {
     } elsif ($self->{cpqHeFltTolPowerSupplyCapacityUsed}) {
       if ($self->{runtime}->{options}->{perfdata}) {
         $self->{runtime}->{plugin}->add_perfdata(
-            label => sprintf("pc_%s", $self->{cpqHeFltTolPowerSupplyBay}),
+            label => sprintf("pc.%s", $self->{cpqHeFltTolPowerSupplyBay}),
             value => $self->{cpqHeFltTolPowerSupplyCapacityUsed}
         );
       }

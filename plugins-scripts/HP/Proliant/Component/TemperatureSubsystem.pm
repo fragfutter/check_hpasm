@@ -141,21 +141,21 @@ sub check {
   }
   if ($self->{runtime}->{options}->{perfdata} == 2) {
     $self->{runtime}->{plugin}->add_perfdata(
-        label => sprintf('temp_%s', $self->{cpqHeTemperatureIndex}),
+        label => sprintf('temp.%s', $self->{cpqHeTemperatureIndex}),
         value => $self->{cpqHeTemperature},
         warning => $self->{cpqHeTemperatureThreshold},
         critical => $self->{cpqHeTemperatureThreshold}
     );
   } elsif ($self->{runtime}->{options}->{perfdata} == 1) {
     $self->{runtime}->{plugin}->add_perfdata(
-        label => sprintf('temp_%s_%s', $self->{cpqHeTemperatureIndex},
+        label => sprintf('temp.%s_%s', $self->{cpqHeTemperatureIndex},
             $self->{cpqHeTemperatureLocale}),
         value => $self->{cpqHeTemperature},
         warning => $self->{cpqHeTemperatureThreshold},
         critical => $self->{cpqHeTemperatureThreshold}
     );
   } 
-  $self->add_extendedinfo(sprintf "temp_%s=%d",
+  $self->add_extendedinfo(sprintf "temp.%s=%d",
       $self->{cpqHeTemperatureIndex},
       $self->{cpqHeTemperature});
 }
@@ -186,17 +186,17 @@ sub check {
       $self->{cpqHeTemperature}, $self->{cpqHeTemperatureUnits});
   if ($self->{runtime}->{options}->{perfdata} == 2) {
     $self->{runtime}->{plugin}->add_perfdata(
-        label => sprintf('temp_%s', $self->{cpqHeTemperatureIndex}),
+        label => sprintf('temp.%s', $self->{cpqHeTemperatureIndex}),
         value => $self->{cpqHeTemperature},
     );
   } elsif ($self->{runtime}->{options}->{perfdata} == 1) {
     $self->{runtime}->{plugin}->add_perfdata(
-        label => sprintf('temp_%s_%s', $self->{cpqHeTemperatureIndex},
+        label => sprintf('temp.%s_%s', $self->{cpqHeTemperatureIndex},
             $self->{cpqHeTemperatureLocale}),
         value => $self->{cpqHeTemperature},
     );
   } 
-  $self->add_extendedinfo(sprintf "temp_%s=%d",
+  $self->add_extendedinfo(sprintf "temp.%s=%d",
       $self->{cpqHeTemperatureIndex},
       $self->{cpqHeTemperature});
 }

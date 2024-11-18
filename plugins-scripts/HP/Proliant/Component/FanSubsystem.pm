@@ -138,7 +138,7 @@ sub check {
       $self->{cpqHeFltTolFanSpeed}, $self->{cpqHeFltTolFanPctMax},
       $self->{cpqHeFltTolFanLocale}, $self->{cpqHeFltTolFanRedundant},
       $self->{cpqHeFltTolFanRedundantPartner});
-  $self->add_extendedinfo(sprintf 'fan_%s=%d%%',
+  $self->add_extendedinfo(sprintf 'fan.%s=%d%%',
       $self->{cpqHeFltTolFanIndex}, $self->{cpqHeFltTolFanSpeed});
   if ($self->{cpqHeFltTolFanPresent} eq 'present') {
     if ($self->{cpqHeFltTolFanSpeed} > $self->{cpqHeFltTolFanPctMax} || $self->{cpqHeFltTolFanSpeed} < 5) {
@@ -203,7 +203,7 @@ sub check {
   }
   if ($self->{runtime}->{options}->{perfdata}) {
     $self->{runtime}->{plugin}->add_perfdata(
-        label => sprintf('fan_%s', $self->{cpqHeFltTolFanIndex}),
+        label => sprintf('fan.%s', $self->{cpqHeFltTolFanIndex}),
         value => $self->{cpqHeFltTolFanSpeed},
         uom => '%',
     );

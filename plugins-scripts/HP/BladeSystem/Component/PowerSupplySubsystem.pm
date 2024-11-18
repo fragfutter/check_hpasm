@@ -108,7 +108,7 @@ sub check {
     }
   }
   $self->{runtime}->{plugin}->add_perfdata(
-      label => 'watt_total',
+      label => 'watt.total',
       value => $total_current_watt,
       warning => $total_max_watt,
       critical => $total_max_watt,
@@ -124,13 +124,13 @@ sub check {
   #);
   if ($total_in_temp) {
     $self->{runtime}->{plugin}->add_perfdata(
-        label => 'in_temp',
+        label => 'temp.in',
         value => $total_in_temp / $num_ps,
     );
   }
   if ($total_out_temp) {
     $self->{runtime}->{plugin}->add_perfdata(
-        label => 'out_temp',
+        label => 'temp.out',
         value => $total_out_temp / $num_ps,
     );
   }
@@ -194,13 +194,13 @@ sub check {
     } 
     if ($self->{runtime}->{options}->{perfdata} != 2) {
       $self->{runtime}->{plugin}->add_perfdata(
-          label => sprintf('watt_%s', $self->{name}),
+          label => sprintf('watt.%s', $self->{name}),
           value => $self->{cpqRackPowerSupplyCurPwrOutput},
           warning => $self->{cpqRackPowerSupplyMaxPwrOutput},
           critical => $self->{cpqRackPowerSupplyMaxPwrOutput}
       );
       #$self->{runtime}->{plugin}->add_perfdata(
-      #    label => sprintf('watt_pct_%s', $self->{name}),
+      #    label => sprintf('watt.pct_%s', $self->{name}),
       #    value => ($self->{cpqRackPowerSupplyCurPwrOutput} == 0 ? 0 :
       #        sprintf ("%.2f",
       #        ($self->{cpqRackPowerSupplyCurPwrOutput} /
@@ -211,13 +211,13 @@ sub check {
       #);
       if ($self->{cpqRackPowerSupplyIntakeTemp} != -1) {
         $self->{runtime}->{plugin}->add_perfdata(
-            label => sprintf('in_temp_%s', $self->{name}),
+            label => sprintf('temp.in_%s', $self->{name}),
             value => $self->{cpqRackPowerSupplyIntakeTemp},
         );
       }
       if ($self->{cpqRackPowerSupplyExhaustTemp} != -1) {
         $self->{runtime}->{plugin}->add_perfdata(
-            label => sprintf('out_temp_%s', $self->{name}),
+            label => sprintf('temp.out_%s', $self->{name}),
             value => $self->{cpqRackPowerSupplyExhaustTemp},
         );
       }

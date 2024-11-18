@@ -140,21 +140,21 @@ sub check {
   }
   if ($self->{runtime}->{options}->{perfdata} == 2) {
     $self->{runtime}->{plugin}->add_perfdata(
-        label => sprintf('temp_%s', $self->{name}),
+        label => sprintf('temp.%s', $self->{name}),
         value => $self->{cpqRackCommonEnclosureTempCurrent},
         warning => $self->{cpqRackCommonEnclosureTempThreshold},
         critical => $self->{cpqRackCommonEnclosureTempThreshold}
     );
   } elsif ($self->{runtime}->{options}->{perfdata} == 1) {
     $self->{runtime}->{plugin}->add_perfdata(
-        label => sprintf('temp_%s_%s', $self->{name},
+        label => sprintf('temp.%s_%s', $self->{name},
             $self->{cpqRackCommonEnclosureTempLocation}),
         value => $self->{cpqRackCommonEnclosureTempCurrent},
         warning => $self->{cpqRackCommonEnclosureTempThreshold},
         critical => $self->{cpqRackCommonEnclosureTempThreshold}
     );
   }
-  $self->add_extendedinfo(sprintf "temp_%s=%d", 
+  $self->add_extendedinfo(sprintf "temp.%s=%d", 
       $self->{name}, $self->{cpqRackCommonEnclosureTempCurrent});
 
 }
